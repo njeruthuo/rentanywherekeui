@@ -1,9 +1,10 @@
-import React from 'react'
+import React from "react";
 
 const Home = () => {
-  return (
-    <div>Home</div>
-  )
-}
+  /***
+   * Home will show all the properties to the users who seek rental houses
+   */
+  return <div>Home</div>;
+};
 
-export default Home
+export default Home;
