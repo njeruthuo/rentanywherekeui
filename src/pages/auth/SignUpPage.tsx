@@ -14,6 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useSignUpMutation } from "@/state/features/auth/authApi";
+import { Link, useNavigate } from "react-router-dom";
+import { errorToaster, successToaster } from "@/components/custom/toasters";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
@@ -28,6 +30,7 @@ const formSchema = z.object({
 
 const SignUpPage = () => {
   const [signUp, { isLoading }] = useSignUpMutation();
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,21 +48,26 @@ const SignUpPage = () => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await signUp(values).unwrap();
-      console.log(response, "response");
+      await signUp(values).unwrap();
+      successToaster("User sign up was successful. Login to continue....");
+      navigate("/sign-in");
     } catch (error) {
       console.log(error);
+      errorToaster("Something was wrong with your request. Please try again!");
     }
-    console.log(values);
   }
 
   return (
-    <div className="flex justify-center items-center h-full">
+    <div className="flex justify-center items-center flex-col h-full">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-1/2"
         >
+          <h3 className="text-xl font-semibold">Sign up</h3>
+          <p className="text-xl font-light">
+            Please create an account to post your ad
+          </p>
           <div className="flex gap-2">
             <FormField
               control={form.control}
@@ -201,6 +209,16 @@ const SignUpPage = () => {
           </div>
 
           <SubmitButton loading={isLoading}>Create Account</SubmitButton>
+
+          <p>
+            Already have an account?{" "}
+            <Link
+              className="mx-2 primary-color primary-color-hover"
+              to={"/sign-in"}
+            >
+              Sign in here.
+            </Link>
+          </p>
         </form>
       </Form>
     </div>

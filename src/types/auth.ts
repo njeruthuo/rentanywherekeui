@@ -8,3 +8,5 @@ export type IValues = {
   password: string;
   password1: string;
 };
+
+export type LoginCred = { email: string; password: string };

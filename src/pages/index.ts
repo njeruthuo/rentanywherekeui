@@ -1,5 +1,6 @@
 import Home from "./Home";
-import SignInPage from "./SignInPage";
-import SignUpPage from "./SignUpPage";
+import Manager from "./Dashboard";
+import SignInPage from "./auth/SignInPage";
+import SignUpPage from "./auth/SignUpPage";
 
-export { Home, SignInPage, SignUpPage };
+export { Home, SignInPage, SignUpPage, Manager };

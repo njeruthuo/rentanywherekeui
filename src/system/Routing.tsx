@@ -1,5 +1,5 @@
 import { AuthLayout, MainLayout } from "@/layouts";
-import { Home, SignInPage, SignUpPage } from "@/pages";
+import { Home, Manager, SignInPage, SignUpPage } from "@/pages";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const Routing = () => {
@@ -8,6 +8,7 @@ const Routing = () => {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" index element={<Home />} />
+          <Route path="/dashboard" index element={<Manager />} />
         </Route>
 
         <Route element={<AuthLayout />}>

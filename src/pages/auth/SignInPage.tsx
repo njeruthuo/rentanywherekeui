@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/custom/buttons";
+import { Link, useNavigate } from "react-router-dom";
+import { useSignInMutation } from "@/state/features/auth/authApi";
+import { successToaster } from "@/components/custom/toasters";
 
 const formSchema = z.object({
   email: z.string().min(2).max(50),
@@ -18,6 +21,8 @@ const formSchema = z.object({
 });
 
 const SignInPage = () => {
+  const [signIn] = useSignInMutation();
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -27,10 +32,14 @@ const SignInPage = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      await signIn(values).unwrap();
+      successToaster("The login was successful. You are being redirected...")
+      navigate('/dashboard')
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -40,6 +49,10 @@ const SignInPage = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-1/2"
         >
+          <h3 className="text-xl font-semibold">Sign in</h3>
+          <p className="text-xl font-light">
+            Please sign in to your account to post an ad
+          </p>
           <FormField
             control={form.control}
             name="email"
@@ -72,6 +85,16 @@ const SignInPage = () => {
             )}
           />
           <SubmitButton>Submit</SubmitButton>
+
+          <p>
+            You need a new account?{" "}
+            <Link
+              className="mx-2 primary-color primary-color-hover"
+              to={"/sign-up"}
+            >
+              Sign up here.
+            </Link>
+          </p>
         </form>
       </Form>
     </div>
