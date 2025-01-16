@@ -1,6 +1,5 @@
-import { Header } from "@/components/custom/nav";
-import React from "react";
 import { Outlet } from "react-router-dom";
+import { Header } from "@/components/custom/nav";
 
 const MainLayout = () => {
   const isLoggedIn = true;
@@ -9,7 +8,9 @@ const MainLayout = () => {
       {isLoggedIn ? (
         <>
           <Header />
-          <Outlet />
+          <div className="w-[90%] mx-auto">
+            <Outlet />
+          </div>
         </>
       ) : (
         <>To log in</>

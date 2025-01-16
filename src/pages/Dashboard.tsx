@@ -1,4 +1,4 @@
-import React from "react";
+import { AddRental } from "@/components/custom/dashboard";
 
 const Dashboard = () => {
   /***
@@ -12,7 +12,21 @@ const Dashboard = () => {
    *
    */
 
-  return <div>Your Dashboard</div>;
+  return (
+    <section>
+      <div>
+        <h2 className="text-2xl my-2 font-bold">Your Dashboard</h2>
+      </div>
+      <div>
+        <h3 className="text-xl my-2">You have no rental ads</h3>
+        <p className="mb-2">Fill in the form to post a new ad</p>
+      </div>
+
+      <div id="form">
+        <AddRental />
+      </div>
+    </section>
+  );
 };
 
 export default Dashboard;
