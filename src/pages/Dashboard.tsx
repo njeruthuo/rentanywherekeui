@@ -22,7 +22,7 @@ const Dashboard = () => {
         <p className="mb-2">Fill in the form to post a new ad</p>
       </div>
 
-      <div id="form">
+      <div id="form" className="border p-3 shadow-md rounded-md">
         <AddRental />
       </div>
     </section>

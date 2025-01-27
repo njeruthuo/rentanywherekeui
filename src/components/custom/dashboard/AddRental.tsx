@@ -1,8 +1,8 @@
-import React from "react";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { SubmitButton } from "../buttons";
+import { useForm } from "react-hook-form";
+import { StyledInput } from "../styled-input";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   Form,
@@ -12,25 +12,30 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { StyledInput } from "../styled-input";
-import { SubmitButton } from "../buttons";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
-  building_name: z.string().min(2), // Name of the building
+  building_name: z.string().min(3), // Name of the building
   room_size: z.string().min(2), // JSON representation of room dimensions
   location: z.string().min(2), // JSON representation of coordinates
-  rental_type: z.string().min(2), // Corresponds to RentalTypeChoices
+  rental_type: z.string().min(2), // Corresponds to RentalTypeChoices (select)
   distance_from_tarmac: z.string().min(2),
   distance_from_cbd: z.string().min(2),
   pricing: z.string().min(2), // Price as a string
-  deposit_required: z.string().min(2), // "yes" or "no"
+  deposit_required: z.boolean(), // "yes" or "no"
   deposit_amount: z.string().min(2), // Deposit amount as a string
-  vacant: z.string().min(2), // "yes" or "no" for vacancy
+  vacant: z.boolean(), // "yes" or "no" for vacancy
   area: z.string().min(2), // Area details
-  bathrooms: z.string().min(2), // Number of bathrooms
+  bathrooms: z.string().min(1), // Number of bathrooms
   amenities: z.string().min(2), // Amenities as a string (e.g., comma-separated)
   owner: z.string().min(2), // Owner identifier (e.g., username or ID)
-  multi_storey: z.string().min(2), // "yes" or "no"
+  multi_storey: z.boolean(), // "yes" or "no"
   description: z.string().min(2), // Additional details about the property
   images: z
     .array(
@@ -49,7 +54,6 @@ const formSchema = z.object({
 });
 
 const AddRental = () => {
-  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,14 +64,14 @@ const AddRental = () => {
       distance_from_tarmac: "",
       distance_from_cbd: "",
       pricing: "",
-      deposit_required: "no", // Default to "no"
+      deposit_required: false, // Default to "no"
       deposit_amount: "",
-      vacant: "yes", // Default to "yes" (or "no" as needed)
+      vacant: true, // Default to "yes" (or "no" as needed)
       area: "",
       bathrooms: "",
       amenities: "", // Comma-separated list or blank
       owner: "", // Identifier for the owner
-      multi_storey: "no", // Default to "no"
+      multi_storey: false, // Default to "no"
       description: "",
       images: [], // Empty array for file uploads or URLs
     },
@@ -75,27 +79,269 @@ const AddRental = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    console.log(values, "values");
   }
+
+  console.log(form, "form data");
 
   return (
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className=" grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             <FormField
               control={form.control}
               name="building_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Building name</FormLabel>
+                  <FormLabel>Building Name</FormLabel>
                   <FormControl>
                     <StyledInput
-                      className="w-full"
-                      placeholder="e.g Building name..."
+                      placeholder="e.g Building Name..."
                       {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="room_size"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Room Size</FormLabel>
+                  <FormControl>
+                    <StyledInput placeholder="e.g 12x10 feet..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="distance_from_cbd"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Distance from CBD</FormLabel>
+                  <FormControl>
+                    <StyledInput
+                      placeholder="e.g 2km from city center..."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="deposit_required"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Deposit Required</FormLabel>
+                  <FormControl>
+                    <Select
+                      value={field.value ? "true" : "false"} // Convert boolean to string for Select
+                      onValueChange={(value) =>
+                        field.onChange(value === "true")
+                      } // Convert string back to boolean
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="true">Yes</SelectItem>
+                        <SelectItem value="false">No</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="deposit_amount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Deposit Amount</FormLabel>
+                  <FormControl>
+                    <StyledInput placeholder="e.g Shs. 5,000..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="vacant"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Is Vacant</FormLabel>
+                  <FormControl>
+                    <Select
+                      value={field.value ? "yes" : "no"}
+                      onValueChange={(value) => field.onChange(value === "yes")}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="yes">Yes</SelectItem>
+                        <SelectItem value="no">No</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="bathrooms"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Number of Bathrooms</FormLabel>
+                  <FormControl>
+                    <StyledInput placeholder="e.g 2" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="owner"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Owner</FormLabel>
+                  <FormControl>
+                    <StyledInput placeholder="e.g Owner ID..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="multi_storey"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Is Multi-Storey</FormLabel>
+                  <FormControl>
+                    <Select
+                      value={field.value ? "yes" : "no"}
+                      onValueChange={(value) => field.onChange(value === "yes")}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="yes">Yes</SelectItem>
+                        <SelectItem value="no">No</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="images"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Images</FormLabel>
+                  <FormControl>
+                    <StyledInput
+                      type="file"
+                      multiple
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files || []);
+                        field.onChange(files);
+                      }}
+                      className="w-full border rounded p-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <textarea
+                      placeholder="Enter a brief description of the rental..."
+                      {...field}
+                      className="w-full border rounded p-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="amenities"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Amenities</FormLabel>
+                  <FormControl>
+                    <textarea
+                      placeholder="Enter a brief description of the rental..."
+                      {...field}
+                      className="w-full border rounded p-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="area"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Area</FormLabel>
+                  <FormControl>
+                    <textarea
+                      placeholder="Enter a brief description of the rental..."
+                      {...field}
+                      className="w-full border rounded p-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="distance_from_tarmac"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Distance from tarmac</FormLabel>
+                  <FormControl>
+                    <textarea
+                      placeholder="Enter a brief description of the rental..."
+                      {...field}
+                      className="w-full border rounded p-2"
                     />
                   </FormControl>
                   <FormMessage />
@@ -110,39 +356,10 @@ const AddRental = () => {
                 <FormItem>
                   <FormLabel>Location</FormLabel>
                   <FormControl>
-                    <StyledInput placeholder="e.g Kimathi st..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="rental_type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Building name</FormLabel>
-                  <FormControl>
-                    {/* We will use Select shortly */}
-                    <StyledInput placeholder="e.g Plato Plaza..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="distance_from_tarmac"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Distance from tarmac</FormLabel>
-                  <FormControl>
-                    {/* We will use Select shortly */}
-                    <StyledInput
-                      placeholder="e.g 1.5km from the Thika Highway..."
+                    <textarea
+                      placeholder="Enter a brief description of the rental..."
                       {...field}
+                      className="w-full border rounded p-2"
                     />
                   </FormControl>
                   <FormMessage />
@@ -155,41 +372,30 @@ const AddRental = () => {
               name="pricing"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Price</FormLabel>
+                  <FormLabel>Pricing</FormLabel>
                   <FormControl>
-                    {/* We will use Select shortly */}
-                    <StyledInput placeholder="e.g Shs. 20,000" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="area"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Area</FormLabel>
-                  <FormControl>
-                    {/* We will use Select shortly */}
-                    <StyledInput placeholder="e.g Ngong area" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="amenities"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Area</FormLabel>
-                  <FormControl>
-                    <StyledInput
-                      placeholder="e.g Swimming pools available..."
+                    <textarea
+                      placeholder="Enter a brief description of the rental..."
                       {...field}
+                      className="w-full border rounded p-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="rental_type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Rental type</FormLabel>
+                  <FormControl>
+                    <textarea
+                      placeholder="Enter a brief description of the rental..."
+                      {...field}
+                      className="w-full border rounded p-2"
                     />
                   </FormControl>
                   <FormMessage />
