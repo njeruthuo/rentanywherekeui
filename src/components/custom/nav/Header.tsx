@@ -5,7 +5,7 @@ const Header = () => {
     <div className=" bg-green-500 py-4 text-white">
       <div className="w-[90%] mx-auto flex place-items-center">
         <div>
-          <h4 className="font-bold text-2xl">rentanywhereke</h4>
+          <h4 className="font-bold text-2xl satisfy-regular hover:cursor-pointer">rentanywhere ke</h4>
         </div>
 
         <Link

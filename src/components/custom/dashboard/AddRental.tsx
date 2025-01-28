@@ -82,8 +82,6 @@ const AddRental = () => {
     console.log(values, "values");
   }
 
-  console.log(form, "form data");
-
   return (
     <div>
       <Form {...form}>
@@ -273,9 +271,40 @@ const AddRental = () => {
                     />
                   </FormControl>
                   <FormMessage />
+                  {/* Display the selected files */}
+                  <div className="mt-2 flex space-x-2">
+                    {field.value?.length > 0 &&
+                      field.value.map((file, index) => (
+                        <div key={index} className="text-sm">
+                          <img src={URL.createObjectURL(file)} alt="" />
+                        </div>
+                      ))}
+                  </div>
                 </FormItem>
               )}
             />
+
+            {/* <FormField
+              control={form.control}
+              name="images"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Images</FormLabel>
+                  <FormControl>
+                    <StyledInput
+                      type="file"
+                      multiple
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files || []);
+                        field.onChange(files);
+                      }}
+                      className="w-full border rounded p-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
 
             <FormField
               control={form.control}
@@ -283,6 +312,96 @@ const AddRental = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <StyledInput
+                      placeholder="Enter a brief description of the rental..."
+                      {...field}
+                      className="w-full border rounded p-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="area"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Area</FormLabel>
+                  <FormControl>
+                    <StyledInput
+                      placeholder="Enter a brief description of the rental..."
+                      {...field}
+                      className="w-full border rounded p-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="distance_from_tarmac"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Distance from tarmac</FormLabel>
+                  <FormControl>
+                    <StyledInput
+                      placeholder="Enter a brief description of the rental..."
+                      {...field}
+                      className="w-full border rounded p-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Location</FormLabel>
+                  <FormControl>
+                    <StyledInput
+                      placeholder="Enter a brief description of the rental..."
+                      {...field}
+                      className="w-full border rounded p-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="pricing"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Pricing</FormLabel>
+                  <FormControl>
+                    <StyledInput
+                      placeholder="Enter a brief description of the rental..."
+                      {...field}
+                      className="w-full border rounded p-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="rental_type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Rental type</FormLabel>
                   <FormControl>
                     <textarea
                       placeholder="Enter a brief description of the rental..."
@@ -301,96 +420,6 @@ const AddRental = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Amenities</FormLabel>
-                  <FormControl>
-                    <textarea
-                      placeholder="Enter a brief description of the rental..."
-                      {...field}
-                      className="w-full border rounded p-2"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="area"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Area</FormLabel>
-                  <FormControl>
-                    <textarea
-                      placeholder="Enter a brief description of the rental..."
-                      {...field}
-                      className="w-full border rounded p-2"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="distance_from_tarmac"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Distance from tarmac</FormLabel>
-                  <FormControl>
-                    <textarea
-                      placeholder="Enter a brief description of the rental..."
-                      {...field}
-                      className="w-full border rounded p-2"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Location</FormLabel>
-                  <FormControl>
-                    <textarea
-                      placeholder="Enter a brief description of the rental..."
-                      {...field}
-                      className="w-full border rounded p-2"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="pricing"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Pricing</FormLabel>
-                  <FormControl>
-                    <textarea
-                      placeholder="Enter a brief description of the rental..."
-                      {...field}
-                      className="w-full border rounded p-2"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="rental_type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Rental type</FormLabel>
                   <FormControl>
                     <textarea
                       placeholder="Enter a brief description of the rental..."

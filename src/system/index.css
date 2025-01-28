@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Satisfy&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -59,6 +62,10 @@
 @layer base {
   * {
     @apply border-border;
+    font-family: "Nunito", serif;
+    font-optical-sizing: auto;
+    /* font-weight: <weight>; */
+    font-style: normal;
   }
   body {
     @apply bg-background text-foreground;
@@ -66,6 +73,12 @@
 
   .primary-color {
     @apply text-green-500;
+  }
+
+  .satisfy-regular {
+    font-family: "Satisfy", serif;
+    font-weight: 400;
+    font-style: normal;
   }
 
   .primary-color-hover {
