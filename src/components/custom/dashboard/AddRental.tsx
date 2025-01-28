@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCreateRentalMutation } from "@/state/features/rentals/rentalApi";
 
 const formSchema = z.object({
   building_name: z.string().min(3), // Name of the building
@@ -54,6 +55,8 @@ const formSchema = z.object({
 });
 
 const AddRental = () => {
+  const [createRental] = useCreateRentalMutation();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -78,9 +81,16 @@ const AddRental = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values, "values");
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const response = await createRental(values).unwrap();
+      console.log(response, "respnse");
+      // Success
+    } catch (error) {
+      // failed
+      console.log(error);
+    }
+  };
 
   return (
     <div>

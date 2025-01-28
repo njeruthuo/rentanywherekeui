@@ -1,4 +1,5 @@
 import { AddRental } from "@/components/custom/dashboard";
+import { useGetRentalListQuery } from "@/state/features/rentals/rentalApi";
 
 const Dashboard = () => {
   /***
@@ -11,6 +12,9 @@ const Dashboard = () => {
    * To pay and see subscription status or renew.
    *
    */
+
+  const { data: RentalList } = useGetRentalListQuery([]);
+  console.log(RentalList, "RentalList");
 
   return (
     <section>
