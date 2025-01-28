@@ -4,5 +4,6 @@ export type InitialStateType = {
 };
 
 import authReducer from "./authSlice";
+import { authApi } from "./authApi";
 
-export { authReducer };
+export { authReducer, authApi };
